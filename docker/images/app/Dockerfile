@@ -12,11 +12,12 @@ RUN apk add --update-cache --no-cache \
 
 WORKDIR /home/node
 
-COPY package*.json .npmrc ./
+COPY package*.json ./
+
 RUN npm install --production
 
 COPY . .
 
-ENTRYPOINT ["bin/entrypoint"]
+EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD [ "sh","./bin/runner" ]

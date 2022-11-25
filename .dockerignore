@@ -1,0 +1,11 @@
+node_modules/
+docker/
+test/
+
+docker-compose.yaml
+README.md
+nodemon.json
+jest.config.js
+
+.nvmrc
+.gitignore

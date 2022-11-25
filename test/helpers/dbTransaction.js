@@ -1,6 +1,15 @@
 import { Model } from 'objection';
+import Knex from 'knex';
 
-const knex = Model.knex();
+const knex = Knex({
+  client: 'pg',
+  connection: {
+    database: 'test_project_test',
+    user: 'postgres',
+    port: 5400,
+  },
+});
+
 let trx;
 
 beforeEach(async () => {
