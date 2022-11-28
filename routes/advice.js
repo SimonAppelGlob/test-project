@@ -4,29 +4,43 @@ import axios from 'axios';
 
 exports.ADVICE_BASE_ROUTE = '/advice';
 
-const saveToDb = function (id, advice) {
-  insertAdvice({
-    api_id: id,
-    advice: advice,
-  });
+const saveToDb = async function (arrOfElems) {
+  for (const elem of arrOfElems) {
+    if (!elem?.adv) return;
+    await insertAdvice({
+      advice: elem.adv,
+      api_id: elem.id,
+    }).catch((e) => console.error(`Error! ${e}`));
+  }
 };
 
-exports.getAdviceAndStore = function (req, res) {
-  const word = req.body.query ?? '';
+exports.getAdviceAndStore = async function (req, res) {
+  try {
+    // Extract info from query
+    const words =
+      typeof req.body.query === 'object' ? req.body.query : [req.body.query];
 
-  axios
-    .get(`https://api.adviceslip.com/advice/search/${word}`)
-    .then((apiResponse) => {
-      if (!apiResponse.data?.slips?.[0])
-        return res.status(404).json({ advice: 'No Advice!' });
+    // Bulk-Promise
+    const promiseFromWords = words.map((elem) =>
+      axios.get(`https://api.adviceslip.com/advice/search/${elem}`),
+    );
 
-      const { advice, id } = apiResponse.data?.slips?.[0];
+    // Resolve all promises
+    const resFromPromises = await Promise.all(promiseFromWords);
 
-      saveToDb(id, advice);
+    // "Filter" the results
+    const resToOutput = resFromPromises.map((elem) => {
+      if (!elem.data?.slips?.[0]) return { message: 'No advice for that word' };
+      const { advice, id } = elem.data?.slips?.[0];
 
-      res.status(200).json({ advice: `${advice}` });
-    })
-    .catch((e) => {
-      return res.status(400).json({ message: `${e}` });
+      return { adv: advice, id: id };
     });
+
+    // If the data is well-composed, must be saved.
+    await saveToDb(resToOutput);
+
+    return res.status(200).json(resToOutput);
+  } catch (e) {
+    return res.status(400).json(`Error! ${e}`);
+  }
 };

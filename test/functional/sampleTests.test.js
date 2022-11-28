@@ -14,7 +14,7 @@ describe('jest', () => {
     describe('if no query is passed', () => {
       it('returns an error', async () => {
         axios.get.mockImplementation(() =>
-          Promise.reject({ status: 404, data: undefined }),
+          Promise.reject({ status: 400, data: undefined }),
         );
 
         const { statusCode } = await request(app)
@@ -47,7 +47,7 @@ describe('jest', () => {
           .post('/advice')
           .send({ query: '[][]' });
 
-        expect(statusCode).toBe(404);
+        expect(statusCode).toBe(200);
       });
     });
   });
