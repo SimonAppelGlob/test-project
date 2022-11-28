@@ -9,7 +9,7 @@ module.exports = {
       database: 'test_project_dev',
       user: nconf.get('DB_USER'),
       password: nconf.get('DB_PASSWORD'),
-      port: nconf.get('DB_PORT')
+      port: nconf.get('DB_PORT'),
     },
     migrations: {
       directory: 'db/migrations',

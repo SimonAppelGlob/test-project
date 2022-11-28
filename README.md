@@ -10,6 +10,6 @@ ACS Reports Team test project.
 - Run `bin/setup`
 - Copy the `.env.sample` file into a new `.env.json` file. If you are using `docker` 
 you are good to go, otherwise fill out the details for your enviroment.
-- Run `npm run debug` 
+- Just run 'sh './bin/run-app'
 
 Done!

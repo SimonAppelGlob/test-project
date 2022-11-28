@@ -3,20 +3,21 @@ services:
   api:
     build:
       context: .
-      dockerfile: docker/images/app/Dockerfile
+      dockerfile: ./Dockerfile-app-temp
     ports:
-      - '3150:3150'
+      - '3150:3000'
     depends_on:
       - db
     environment:
       - PORT=3000
       - ENVIRONMENT=DEV
-      - NODE_ENV=production
+      - NODE_ENV=development
       - PGHOST=db
       - PGUSER=postgres
       - DATABASE_URL=${DATABASE_URL}
-
+  
   db:
     image: postgres:12.1
+    container_name: db-postgres
     ports:
       - '5400:5432'
