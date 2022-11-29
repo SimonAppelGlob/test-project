@@ -1,4 +1,4 @@
-import { Model } from 'objection';
+import { Model, knexSnakeCaseMappers } from 'objection';
 import Knex from 'knex';
 
 const knex = Knex({
@@ -8,6 +8,7 @@ const knex = Knex({
     user: 'postgres',
     port: 5400,
   },
+  ...knexSnakeCaseMappers(),
 });
 
 let trx;
