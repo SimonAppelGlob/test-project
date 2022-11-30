@@ -16,7 +16,6 @@ const saveToDb = async function (arrOfElems) {
 
 const deleteFromDb = async function (id) {
   try {
-    console.log(id);
     await deleteAdvice(id);
   } catch (e) {
     console.error(`${e}`);
@@ -57,13 +56,16 @@ exports.getAdviceAndStore = async function (req, res) {
 exports.removeAdviceFromStore = async function (req, res) {
   try {
     // Get the data from the structure / param
-    const receivedId = req.body.query;
+    const receivedId = req.body.query ?? false;
     // Verrify the data.
+
+    if (receivedId === false)
+      return res.status(400).json({ info: `ID not valid` });
 
     // Query to DB to delete by "ID"
     deleteFromDb(receivedId);
 
-    res.send(200);
+    return res.status(200).json({ info: `Deleted ID: ${receivedId}` });
   } catch (e) {
     console.error(`Error! ${e}`);
   }

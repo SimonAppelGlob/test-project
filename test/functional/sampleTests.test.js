@@ -10,18 +10,6 @@ describe('jest', () => {
     expect(Math.min()).toBeGreaterThan(Math.max());
   });
 
-  describe('DELETE /advice', () => {
-    describe('if ID is passed', () => {
-      it('it should erase it from DB', async () => {
-        const { statusCodeDelete } = await request(app)
-          .delete('/advice')
-          .send({ query: '1' });
-
-        expect(statusCodeDelete).toBe(200);
-      });
-    });
-  });
-
   describe('POST /advice', () => {
     describe('if no query is passed', () => {
       it('returns an error', async () => {
@@ -60,6 +48,28 @@ describe('jest', () => {
           .send({ query: '[][]' });
 
         expect(statusCode).toBe(200);
+      });
+    });
+  });
+
+  describe('DELETE /advice', () => {
+    describe('if ID is passed', () => {
+      it('it should erase it from DB', async () => {
+        const { statusCode } = await request(app)
+          .del('/advice')
+          .send({ query: '1' });
+
+        expect(statusCode).toBe(200);
+      });
+    });
+
+    describe('if ID is not passed', () => {
+      it('it should throw an error', async () => {
+        const { statusCode } = await request(app)
+          .del('/advice')
+          .send({ query: null });
+
+        expect(statusCode).toBe(400);
       });
     });
   });
