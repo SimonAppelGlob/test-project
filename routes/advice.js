@@ -1,5 +1,5 @@
 'use strict;';
-import { insertAdvice } from '../app/advice';
+import { insertAdvice, deleteAdvice } from '../app/advice';
 import axios from 'axios';
 
 exports.ADVICE_BASE_ROUTE = '/advice';
@@ -11,6 +11,15 @@ const saveToDb = async function (arrOfElems) {
       advice: elem.adv,
       api_id: elem.id,
     }).catch((e) => console.error(`Error! ${e}`));
+  }
+};
+
+const deleteFromDb = async function (id) {
+  try {
+    console.log(id);
+    await deleteAdvice(id);
+  } catch (e) {
+    console.error(`${e}`);
   }
 };
 
@@ -42,5 +51,20 @@ exports.getAdviceAndStore = async function (req, res) {
     return res.status(200).json(resToOutput);
   } catch (e) {
     return res.status(400).json(`Error! ${e}`);
+  }
+};
+
+exports.removeAdviceFromStore = async function (req, res) {
+  try {
+    // Get the data from the structure / param
+    const receivedId = req.body.query;
+    // Verrify the data.
+
+    // Query to DB to delete by "ID"
+    deleteFromDb(receivedId);
+
+    res.send(200);
+  } catch (e) {
+    console.error(`Error! ${e}`);
   }
 };

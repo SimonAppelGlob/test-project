@@ -5,4 +5,4 @@ set -e
 NODE_ENV=test npm run db:migrate
 NODE_ENV=development npm run db:migrate
 
-npm run start
+npm run debug

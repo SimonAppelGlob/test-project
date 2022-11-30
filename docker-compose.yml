@@ -3,7 +3,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: ./Dockerfile-app-temp
+      dockerfile: ./Dockerfile-app
     ports:
       - '3150:3000'
     depends_on:
@@ -15,6 +15,8 @@ services:
       - PGHOST=db
       - PGUSER=postgres
       - DATABASE_URL=${DATABASE_URL}
+    volumes:
+      - ./:/home/node
   
   db:
     image: postgres:12.1

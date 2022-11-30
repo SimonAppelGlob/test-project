@@ -1,1 +1,1 @@
-export { insertAdvice } from './model';
+export { insertAdvice, deleteAdvice } from './model';

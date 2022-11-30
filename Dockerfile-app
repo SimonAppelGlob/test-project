@@ -1,0 +1,14 @@
+# if updating node version also update 'engines' in package.json
+FROM mhart/alpine-node:14
+
+WORKDIR /home/node
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD [ "sh","./bin/runner" ]

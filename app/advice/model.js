@@ -17,4 +17,8 @@ const insertAdvice = async (props) => {
   return Advice.query().insert(props).returning('*');
 };
 
-export { Advice as default, insertAdvice };
+const deleteAdvice = async (id) => {
+  return Advice.query().delete().where({ api_id: id });
+};
+
+export { Advice as default, insertAdvice, deleteAdvice };

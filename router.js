@@ -7,4 +7,6 @@ router.get('/', (req, res) => res.send('API IS UP!'));
 
 router.post(advice.ADVICE_BASE_ROUTE, advice.getAdviceAndStore);
 
+router.delete(advice.ADVICE_BASE_ROUTE, advice.removeAdviceFromStore);
+
 export default router;
